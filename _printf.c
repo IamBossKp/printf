@@ -3,7 +3,9 @@
 void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _prinf - containing variadic conditons to determine
+ * _prinf - containing variadic conditons to determine.
+ * format - string to be used to parse functions.
+ * Return - to return printed_chars if successful.
 */
 int _printf(const char *format, ...)
 {
@@ -52,8 +54,8 @@ int _printf(const char *format, ...)
 
 /**
  * print_buffer - to write &buffer[0] to Standard Output
- * @buffer[]: string to write data to output
- * @*buff_ind: pointer
+ * buffer[] - string to write data to output.
+ * buff_ind - pointer for.
 */
 void print_buffer(char buffer[], int *buff_ind)
 {
