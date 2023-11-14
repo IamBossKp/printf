@@ -54,8 +54,8 @@ int _printf(const char *format, ...)
 
 /**
  * print_buffer - to write &buffer[0] to Standard Output
- * buffer[] - string to write data to output.
- * buff_ind - pointer for.
+ * @buffer: string to write data to output.
+ * @buff_ind: the string to be printed.
 */
 void print_buffer(char buffer[], int *buff_ind)
 {
