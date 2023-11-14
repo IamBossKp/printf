@@ -4,7 +4,6 @@ void print_buffer(char buffer[], int *buff_ind);
 
 /**
  * _prinf - containing variadic conditons to determine
- * conditions 
 */
 int _printf(const char *format, ...)
 {
