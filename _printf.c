@@ -1,66 +1,122 @@
 #include "main.h"
 
-void print_buffer(char buffer[], int *buff_ind);
+int handle_hash(char c, int *i);
+/**
+ * handle_plus_space - handle plus and spaces after % sign
+ * @c: the char after %
+ * @num: number that will be printed after
+ * Return: len of printed char
+ */
+int handle_plus_space(char c, int num)
+{
+	int len = 0;
+
+	if (c == '+')
+	{
+		int check_isNeg;
+
+		check_isNeg = num > 0 ? 0 : 1;
+		if (!check_isNeg)
+		{
+			_putchar('+');
+			len++;
+		}
+	}
+	else
+	{
+		_putchar(' ');
+		len++;
+	}
+	return (len);
+}
 
 /**
  * _printf - print f function
  * @format: the string will be printed
- * Return:  printed_chars; number of digits printed
-*/
+ * Return: number of digits printed
+ */
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	int j, i = 0, len = 0;
+	va_list ap;
 
-	if (format == NULL)
+	format_t fun[] = {{'c', print_char}, {'s', print_string},
+		{'%', print_mod}, {'i', print_int},
+		{'d', print_int}, {'r', reverse_string},
+		{'x', print_hex}, {'X', print_Hex},
+		{'o', print_octal}, {'u', print_unsigned},
+		{'b', print_binary}, {'p', print_address},
+		{'S', print_ex_str}
+	};
+
+	va_start(ap, format);
+
+	if ((!format) || (format[0] == '%' && !format[1]))
 		return (-1);
 
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
+	while (format[i])
 	{
-		if (format[i] != '%')
+		if (format[i] == '%')
 		{
-			buffer[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			printed_chars++;
+			if (format[i + 1] == '\0')
+				return (-1);
+			if (format[i + 1] == '+' || format[i + 1] == ' ')
+			{
+				va_list dest;
+
+				va_copy(dest, ap);
+				len += handle_plus_space(format[i + 1], va_arg(dest, int));
+				i++;
+			}
+			else if (format[i + 1] == '#')
+			{
+				len += handle_hash(format[i + 2], &i);
+			}
+			j = 0;
+			while (j < 13)
+			{
+				if (format[i + 1] == fun[j].ch)
+				{
+					len += fun[j].f(ap);
+					i += 2;
+					break;
+				}
+				j++;
+			}
 		}
 		else
 		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &i);
-			width = get_width(format, &i, list);
-			precision = get_precision(format, &i, list);
-			size = get_size(format, &i);
-			++i;
-			printed = handle_print(format, &i, list, buffer,
-			flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
+			_putchar(format[i]);
+			len++;
+			i++;
+
 		}
-
 	}
-
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-
-	return (printed_chars);
+	va_end(ap);
+	return (len);
 }
-
 /**
- * print_buffer - to write &buffer[0] to Standard Output
- * @buffer: string to write data to output.
- * @buff_ind: the string to be printed.
-*/
-void print_buffer(char buffer[], int *buff_ind)
+ * handle_hash - handle after the hash sign
+ * @c: the char after # sign
+ * @i: pointer to current char of @format
+ * Return: len of printed char
+ */
+int handle_hash(char c, int *i)
 {
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
+	int len = 0;
 
-	*buff_ind = 0;
+	if (c == 'x' || c == 'X')
+	{
+		_putchar('0');
+		_putchar('x');
+		len += 2;
+		(*i)++;
+	}
+	else if (c == 'o')
+	{
+		_putchar('0');
+		len++;
+		(*i)++;
+	}
+	return (len);
 }
