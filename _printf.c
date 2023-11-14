@@ -3,9 +3,9 @@
 void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _prinf - containing variadic conditons to determine.
- * format - string to be used to parse functions.
- * Return - to return printed_chars if successful.
+ * _printf - print f function
+ * @format: the string will be printed
+ * Return:  printed_chars; number of digits printed
 */
 int _printf(const char *format, ...)
 {
