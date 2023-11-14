@@ -2,6 +2,10 @@
 
 void print_buffer(char buffer[], int *buff_ind);
 
+/**
+ * _prinf - containing variadic conditons to determine
+ * conditions 
+*/
 int _printf(const char *format, ...)
 {
 	int i, printed = 0, printed_chars = 0;
@@ -46,6 +50,12 @@ int _printf(const char *format, ...)
 
 	return (printed_chars);
 }
+
+/**
+ * print_buffer - to write &buffer[0] to Standard Output
+ * @buffer[]: string to write data to output
+ * @*buff_ind: pointer
+*/
 void print_buffer(char buffer[], int *buff_ind)
 {
 	if (*buff_ind > 0)
